@@ -4,36 +4,36 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 
-// Charger les variables d'env (.env en local / Render en prod)
+// Charger les variables d'environnement (.env en local ou Render en prod)
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-// CORS → autoriser ton site Vercel à appeler Render
+// CORS → autoriser le frontend Vercel à accéder à l'API Render
 app.use(cors({
-    origin: 'https://portfolio-snowgous-projects.vercel.app', // ton frontend Vercel
+    origin: 'https://portfolio-snowgous-projects.vercel.app',
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
 }));
 
 app.use(express.json());
 
-// Connexion MongoDB
+// Connexion à MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
     dbName: 'portfolio',
 })
 .then(() => console.log('✅ Connected to MongoDB'))
 .catch((err) => console.error('❌ MongoDB connection error:', err));
 
-// Schéma + Modèle
+// Définition du modèle Contact
 const Contact = mongoose.model('Contact', new mongoose.Schema({
     name: String,
     email: String,
     message: String,
 }));
 
-// Route API POST
+// Route POST /api/contact
 app.post('/api/contact', async (req, res) => {
     try {
         const newContact = new Contact(req.body);
@@ -45,7 +45,7 @@ app.post('/api/contact', async (req, res) => {
     }
 });
 
-// Lancement du serveur sur le port géré par Render
-app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
+// Lancer le serveur (⚠️ obligatoire pour Render)
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 Server running on http://0.0.0.0:${PORT}`);
 });
