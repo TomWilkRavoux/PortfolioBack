@@ -45,6 +45,10 @@ app.post('/api/contact', async (req, res) => {
     }
 });
 
+app.get('/api/ping', (req, res) => {
+    res.status(200).json({ message: 'pong' });
+});
+
 // Lancer le serveur (⚠️ obligatoire pour Render)
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 Server running on http://0.0.0.0:${PORT}`);
