@@ -6,6 +6,7 @@ import cors from 'cors';
 
 // Charger les variables d'environnement (.env en local ou Render en prod)
 dotenv.config();
+// dotenv.config({ path: '.env.local' });
 
 const app = express();
 const PORT = process.env.PORT || 10000;
